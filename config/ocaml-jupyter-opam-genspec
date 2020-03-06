@@ -1,0 +1,21 @@
+#!/bin/sh -eu
+
+OPAM_BINDIR="$(opam config var bin)"
+OPAM_SWITCH="$(opam config var switch)"
+DISPLAY_NAME="OCaml $(opam config var switch)"
+
+cat <<EOF
+{
+  "display_name": "$DISPLAY_NAME",
+  "language": "OCaml",
+  "argv": [
+    "/bin/sh",
+    "-c",
+    "eval \$(opam config env --switch=$OPAM_SWITCH) && $OPAM_BINDIR/ocaml-jupyter-kernel \"\$@\"",
+    "-init", "$HOME/.ocamlinit",
+    "--merlin", "$OPAM_BINDIR/ocamlmerlin",
+    "--verbosity", "app",
+    "--connection-file", "{connection_file}"
+  ]
+}
+EOF
