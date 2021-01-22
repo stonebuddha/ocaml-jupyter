@@ -10,4 +10,5 @@
               jupyter_completor
               jupyter_kernel
               ppx_deriving.runtime)
+ (link_flags  -linkall)
  (flags       ((:include %{workspace_root}/config/ocaml_flags.sexp))))
