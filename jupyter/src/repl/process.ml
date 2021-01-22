@@ -121,10 +121,10 @@ let recv_ctrl_thread ~push ~mvar ic =
 
 let recv_stdout_thread ~push ~ctx ~name ic =
   forever (fun () ->
-      Lwt_io.read_line ic >|= fun line ->
+      Lwt_io.read ~count:256 ic >|= fun line ->
       match !ctx with
       | Some ctx ->
-        let iopub = Iopub.stream ~name (line ^ "\n") in
+        let iopub = Iopub.stream ~name line in
         let msg = Message.create_next_iopub ctx iopub in
         push (Some (Message.IOPUB_REP msg))
       | None ->
